@@ -5,6 +5,8 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  FlatList,
+  SafeAreaView,
 } from "react-native";
 import React, { useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -65,10 +67,22 @@ export default function ResturantScreen() {
       })
     );
   }, []);
-  return (
-    <View className="bg-white">
-      
 
+  const renderRestaurantCategories = ({ item: category }) => {
+    return (
+      <CategoriesCard
+        key={category._id}
+        id={category._id}
+        name={category.name}
+        description={category.description}
+        items={category.items}
+        image={category?.image.asset}
+      />
+    );
+  };
+  return (
+    <SafeAreaView>
+    <View className="bg-white h-full">
       <View className="relative ">
         <Image className="w-full h-48" source={{ uri: urlFor(imgUrl).url() }} />
         <TouchableOpacity
@@ -94,7 +108,6 @@ export default function ResturantScreen() {
               <Text className="text-sm">
                 <Text className="text-green-700">{rating + " stars"}</Text>
                 <Text className="text-gray-700">
-                  
                   {" " + reviews + " reviews"}
                 </Text>
                 ·
@@ -112,28 +125,32 @@ export default function ResturantScreen() {
         </View>
       </View>
       <View className="pt-2">
-           <Searchbar/>
+        <Searchbar />
       </View>
-   
-      <View className="pb-32 bg-white">
-        <Text className="px-4 py-2 text-2xl font-bold">Categories</Text>
-        <View></View>
-        <ScrollView contentContainerStyle={{ paddingBottom: 200 }}>
-          {categories?.map((category) => {
-            console.log("category", category);
-            return (
-              <CategoriesCard
-                key={category._id}
-                id={category._id}
-                name={category.name}
-                description={category.description}
-                items={category.items}
-                image={category?.image.asset}
-              />
-            );
-          })}
-        </ScrollView>
-      </View>
+        {/* <Text className="px-4 py-2 text-2xl font-bold"></Text> */}
+        <View>
+          <FlatList
+            renderItem={renderRestaurantCategories}
+            keyExtractor={(item) => item._id}
+            data={categories}
+            contentContainerStyle={{
+              flexGrow: 1,
+              paddingBottom: 310,
+              paddingTop: 0,
+            }}
+            ListHeaderComponent={
+              <View className="mb-2">
+                <Text
+                  className="font-bold ml-5 text-xl "
+                  style={{ color: themeColors.bgColor(1) }}
+                >
+                  Categories
+                </Text>
+              </View>
+            }
+          />
+        </View>
     </View>
+    </SafeAreaView>
   );
 }

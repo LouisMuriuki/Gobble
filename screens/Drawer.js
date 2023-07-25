@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, StatusBar } from "react-native";
 import React from "react";
 import { themeColors } from "../theme";
 import * as Icon from "react-native-feather";
@@ -28,6 +28,8 @@ const Drawer = () => {
           }
     }
   return (
+    <SafeAreaView>
+     <StatusBar barStyle="dark-content" backgroundColor={"white"} />
     <View className="flex">
       <View
         className="h-52"
@@ -40,7 +42,7 @@ const Drawer = () => {
           <Icon.ArrowLeft strokeWidth={3} stroke={themeColors.bgColor(1)} />
         </TouchableOpacity>
         <Text className="absolute bottom-6 left-2 text-3xl text-white">
-          {greeting} Lui,
+          {greeting} Louis,
         </Text>
       </View>
       {/* <View className="">
@@ -59,6 +61,7 @@ const Drawer = () => {
        
       </View> */}
     </View>
+    </SafeAreaView>
   );
 };
 

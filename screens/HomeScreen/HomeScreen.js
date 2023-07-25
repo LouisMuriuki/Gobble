@@ -42,14 +42,13 @@ export default function HomeScreen() {
   //   };
   //   getData();
   // }, []);
-  useEffect(() => {
+    useEffect(() => {
     const checkInternet = async () => {
       const { isInternetReachable } = await Network.getNetworkStateAsync();
       setInternet(isInternetReachable);
     };
     checkInternet();
   }, [refresh]);
-
   useEffect(() => {
     LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
   }, []);
@@ -60,16 +59,18 @@ export default function HomeScreen() {
     if (internet) {
       getFeaturedRestaurants().then((data) => {
         setFeaturedRestaurants(data);
-      });
+      }).catch(()=>{});
     }
   }, [internet]);
+
+
 
   useEffect(() => {
     if (internet) {
       getRestaurants().then((data) => {
         // console.log("restaurant",data)
         setRestaurants(data);
-      });
+      }).catch(()=>{});
     }
   }, [internet]);
 
